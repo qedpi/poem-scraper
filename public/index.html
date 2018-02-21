@@ -13,20 +13,19 @@
 <div id="poems">
     <div class="jumbotron">
         <div class="container">
-            <template v-if="!poems">
-                <p>Loading Poems...</p>
-            </template>
-            <template v-else class="poem">
-                <template v-for="poem in poems">
-                    <h1 id="poem_title" class="display-1 text-center">{{poem.title}}</h1>
-                    <hr>
-                    <hr>
-                    <!-- Pre(formatted text) treats whitespace literally -->
-                    <pre v-html="poem.content" id="poem_content"></pre>
-                    <hr>
-                    <hr>
-                </template>
-            </template>
+            <transition name="fade">
+                <div v-if="poems" class="poem">
+                    <template v-for="poem in poems">
+                        <h1 id="poem_title" class="display-1 text-center">{{poem.title}}</h1>
+                        <hr>
+                        <hr>
+                        <!-- Pre(formatted text) treats whitespace literally -->
+                        <pre v-html="poem.content" id="poem_content"></pre>
+                        <hr>
+                        <hr>
+                    </template>
+                </div>
+            </transition>
         </div>
     </div>
 </div>

@@ -1,12 +1,6 @@
-.jumbotron {
+body, .jumbotron {
     background-color: black;
 }
-
-/*
-.container {
-    padding: 0 8rem;
-}
-*/
 
 #poem_title {
     font-size: 7rem;
@@ -17,4 +11,11 @@
     font-family: Verdana, sans-serif;
     font-size: 1.5rem;
     color: white;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }
