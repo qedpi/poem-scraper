@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Poems</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div id="poems">
+    <div class="jumbotron">
+        <div class="container">
+            <template v-if="!poems">
+                <p>Loading Poems...</p>
+            </template>
+            <template v-else class="poem">
+                <template v-for="poem in poems">
+                    <h1 id="poem_title" class="display-1 text-center">{{poem.title}}</h1>
+                    <hr>
+                    <hr>
+                    <!-- Pre(formatted text) treats whitespace literally -->
+                    <pre v-html="poem.content" id="poem_content"></pre>
+                    <hr>
+                    <hr>
+                </template>
+            </template>
+        </div>
+    </div>
+</div>
+
+<!-- Socket.io -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+<!-- Vue.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<script>
+    // Connect to server
+    const socket = io.connect();
+
+    const poemsApp = new Vue({
+        el: '#poems',
+        data: {
+            poems: null,
+        },
+        methods: {
+            loadPoem(poems) {
+                this.poems = poems;
+            },
+        },
+    });
+
+    socket.on('poem', poems => poemsApp.loadPoem(poems));
+</script>
+</body>
+</html>
