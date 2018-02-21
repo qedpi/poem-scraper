@@ -37,23 +37,6 @@
 <!-- Vue.js -->
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
-<script>
-    // Connect to server
-    const socket = io.connect();
-
-    const poemsApp = new Vue({
-        el: '#poems',
-        data: {
-            poems: null,
-        },
-        methods: {
-            loadPoem(poems) {
-                this.poems = poems;
-            },
-        },
-    });
-
-    socket.on('poem', poems => poemsApp.loadPoem(poems));
-</script>
+<script src="index.js"></script>
 </body>
 </html>
