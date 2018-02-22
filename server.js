@@ -24,9 +24,8 @@ const options = {
     url: `https://www.poets.org/poetsorg/poem-day/`,
     transform: body => cheerio.load(body),
 };
-
 const options2 = {
-    url: `http://poems.com/poem.php?date=17584`,
+    url: `http://poems.com/`,
     transform: body => cheerio.load(body),
 };
 
@@ -45,8 +44,12 @@ io.on('connection', socket => {
         }).error(e => console.log(e));
         rp(options2).then($ => {
             //const loc = $()
-            poems[1].title = $('#page_title').html();
-            poems[1].content = $('#poem').html();
+            const dateNum = $('strong a').attr('href');
+
+            rp({url: options2.url + dateNum, transform: options2.transform}).then($ => {
+                poems[1].title = $('#page_title').html();
+                poems[1].content = $('#poem').html();
+            }).error(e => console.log(e));
         }).error(e => console.log(e));
     }
     socket.emit('poem', poems);
