@@ -55,5 +55,7 @@ io.on('connection', socket => {
                 socket.emit('poem', poems);
             }).error(e => console.log(e));
         }).error(e => console.log(e));
+    } else {
+        socket.emit('poem', poems);
     }
 });
