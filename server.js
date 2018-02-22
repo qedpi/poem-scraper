@@ -35,12 +35,15 @@ const poems = [{}, {}];
 io.on('connection', socket => {
     console.log('connected to ', socket.id);
     const cur = new Date();
-    if (cur - last_retrieval_time > 3600 * 1000){ // update poems if necessary
+    if (!last_retrieval_time || cur - last_retrieval_time > 3600 * 1000){ // update poems if necessary
+        console.log('scraping poems!');
         last_retrieval_time = cur;
         // poem.timestamp = cur;
         rp(options).then($ => {
             poems[0].title = $('#poem-content h1').html();
             poems[0].content = $('pre').html();
+            // emit after each poem in case one fails
+            socket.emit('poem', poems);
         }).error(e => console.log(e));
         rp(options2).then($ => {
             //const loc = $()
@@ -49,8 +52,8 @@ io.on('connection', socket => {
             rp({url: options2.url + dateNum, transform: options2.transform}).then($ => {
                 poems[1].title = $('#page_title').html();
                 poems[1].content = $('#poem').html();
+                socket.emit('poem', poems);
             }).error(e => console.log(e));
         }).error(e => console.log(e));
     }
-    socket.emit('poem', poems);
 });
